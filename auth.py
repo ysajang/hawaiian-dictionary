@@ -21,18 +21,21 @@ def check_auth(correct_password: str) -> bool:
         st.session_state["authenticated"] = True
         return True
 
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
-        st.image("olii_logo.png", use_container_width=True)
-    st.markdown("")
     st.markdown(
-        "<h2 style='text-align:center; color:#1A7A6D;'>"
-        "Olii — Hawaiian Dictionary</h2>",
-        unsafe_allow_html=True,
-    )
-    st.markdown(
-        "<p style='text-align:center; color:#8B7D6B;'>"
-        "Enter the access password to continue.</p>",
+        """
+        <div style="text-align:center; padding:3rem 0 1rem 0;">
+            <h1 style="font-family:'Playfair Display',Georgia,serif;
+                        font-size:3.5rem; font-weight:700;
+                        color:#2D2D2D; margin-bottom:0.2rem;">
+                Olii
+            </h1>
+            <p style="font-family:sans-serif; font-size:0.85rem;
+                       letter-spacing:0.25em; color:#5B7B71;
+                       text-transform:uppercase; margin-top:0;">
+                Hawaiian Context Dictionary
+            </p>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
 
