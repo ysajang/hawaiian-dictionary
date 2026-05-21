@@ -35,50 +35,60 @@ def trim_history():
 # Page Configuration
 # ──────────────────────────────────────────────
 st.set_page_config(
-    page_title="Olii — Hawaiian Dictionary",
+    page_title="Olii — Hawaiian Context Dictionary",
     page_icon="🌿",
     layout="centered",
 )
 
 # ──────────────────────────────────────────────
-# Custom CSS
+# Custom CSS — matching design deck palette
 # ──────────────────────────────────────────────
 st.markdown("""
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+
     /* Chat input styling */
     .stChatInput textarea::placeholder {
-        color: #8B7D6B;
+        color: #8BA39B;
+        font-size: 0.88rem;
     }
 
     /* Sidebar refinement */
     [data-testid="stSidebar"] {
-        background-color: #F0EBE3;
+        background-color: #D5E1DC;
     }
     [data-testid="stSidebar"] .stMarkdown p {
-        font-size: 0.92rem;
-        line-height: 1.6;
-        color: #4A4340;
+        font-size: 0.9rem;
+        line-height: 1.65;
+        color: #3D4D47;
     }
     [data-testid="stSidebar"] .stMarkdown h3 {
-        color: #1A7A6D;
-        font-weight: 600;
+        color: #2D2D2D;
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 700;
+        font-size: 1.1rem;
     }
 
     /* Header area */
-    .main-header {
+    .olii-header {
         text-align: center;
-        padding: 0.5rem 0 1rem 0;
+        padding: 0.5rem 0 1.5rem 0;
     }
-    .main-header h1 {
-        color: #1A7A6D;
-        font-size: 2rem;
+    .olii-header h1 {
+        font-family: 'Playfair Display', Georgia, serif;
+        color: #2D2D2D;
+        font-size: 3rem;
         font-weight: 700;
         margin-bottom: 0;
+        line-height: 1.1;
     }
-    .main-header .subtitle {
-        color: #8B7D6B;
-        font-size: 0.9rem;
-        margin-top: 0.25rem;
+    .olii-header .subtitle {
+        font-family: sans-serif;
+        color: #5B7B71;
+        font-size: 0.8rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        margin-top: 0.3rem;
     }
 
     /* Disclaimer block styling */
@@ -89,6 +99,15 @@ st.markdown("""
     /* Chat message refinement */
     [data-testid="stChatMessage"] {
         border-radius: 12px;
+    }
+
+    /* Tagline below header */
+    .olii-tagline {
+        text-align: center;
+        color: #8BA39B;
+        font-size: 0.82rem;
+        font-style: italic;
+        margin-bottom: 1rem;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -114,7 +133,7 @@ try:
     MAX_TOKENS = int(config.get("max_tokens", "1024"))
 except (ValueError, TypeError):
     MAX_TOKENS = 1024
-APP_TITLE = config.get("app_title", "Hawaiian-English Dictionary")
+APP_TITLE = config.get("app_title", "Olii")
 APP_SUBTITLE = config.get("app_subtitle", "")
 
 # ──────────────────────────────────────────────
@@ -126,11 +145,10 @@ if not check_auth(PASSWORD):
 # ──────────────────────────────────────────────
 # Chat UI Header
 # ──────────────────────────────────────────────
-header_title = APP_TITLE if APP_TITLE != "Hawaiian-English Dictionary" else "Olii"
 st.markdown(f"""
-<div class="main-header">
-    <h1>🌿 {header_title}</h1>
-    <div class="subtitle">{APP_SUBTITLE or "Your cultural-linguistic guide to Hawaiian"}</div>
+<div class="olii-header">
+    <h1>{APP_TITLE}</h1>
+    <div class="subtitle">Hawaiian Context Dictionary</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -138,8 +156,25 @@ st.markdown(f"""
 # Sidebar
 # ──────────────────────────────────────────────
 with st.sidebar:
-    st.image("olii_logo.png", use_container_width=True)
-    st.markdown("")
+    st.markdown(
+        """
+        <div style="text-align:center; padding:1rem 0 0.5rem 0;">
+            <span style="font-family:'Playfair Display',Georgia,serif;
+                          font-size:1.8rem; font-weight:700;
+                          color:#2D2D2D;">
+                Olii
+            </span>
+            <br>
+            <span style="font-family:sans-serif; font-size:0.65rem;
+                          letter-spacing:0.2em; color:#5B7B71;
+                          text-transform:uppercase;">
+                Hawaiian Context Dictionary
+            </span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.markdown("---")
 
     st.markdown("### About Olii")
     st.markdown(
@@ -178,8 +213,7 @@ with st.sidebar:
     st.markdown("---")
 
     st.caption(
-        "Reference: Pukui & Elbert Hawaiian Dictionary tradition. "
-        "This tool is part of a high school anthropology project."
+        "Reference: Pukui & Elbert Hawaiian Dictionary tradition."
     )
     st.markdown("")
     if st.button("🗑️ Clear conversation", use_container_width=True):
@@ -199,7 +233,7 @@ for msg in st.session_state.messages:
 # ──────────────────────────────────────────────
 # Chat Input Processing
 # ──────────────────────────────────────────────
-if prompt := st.chat_input("Ask Olii about a Hawaiian or English word..."):
+if prompt := st.chat_input("Beyond just 'family,' what is the deeper significance of 'Ohana' in the context of Hawaiian ancestry and protection?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
