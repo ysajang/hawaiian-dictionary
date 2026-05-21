@@ -47,6 +47,14 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
 
+    /* Main content gradient — sage top to cream bottom */
+    [data-testid="stAppViewContainer"] {
+        background: linear-gradient(180deg, #D5E1DC 0%, #F5F0EA 25%);
+    }
+    [data-testid="stHeader"] {
+        background: transparent;
+    }
+
     /* Chat input styling */
     .stChatInput textarea::placeholder {
         color: #8BA39B;
